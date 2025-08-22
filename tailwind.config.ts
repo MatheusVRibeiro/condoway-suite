@@ -18,7 +18,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+			},
 			colors: {
+				// Base semantic colors
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -26,7 +30,9 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					hover: 'hsl(var(--condoway-primary-hover))',
+					light: 'hsl(var(--condoway-primary-light))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -61,14 +67,50 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// CondoWay specific colors
+				condoway: {
+					primary: 'hsl(var(--condoway-primary))',
+					'primary-hover': 'hsl(var(--condoway-primary-hover))',
+					'primary-light': 'hsl(var(--condoway-primary-light))',
+					success: 'hsl(var(--condoway-success))',
+					'success-light': 'hsl(var(--condoway-success-light))',
+					error: 'hsl(var(--condoway-error))',
+					'error-light': 'hsl(var(--condoway-error-light))',
+					warning: 'hsl(var(--condoway-warning))',
+					'warning-light': 'hsl(var(--condoway-warning-light))',
+					info: 'hsl(var(--condoway-info))',
+					'info-light': 'hsl(var(--condoway-info-light))',
+					text: {
+						primary: 'hsl(var(--condoway-text-primary))',
+						secondary: 'hsl(var(--condoway-text-secondary))',
+						muted: 'hsl(var(--condoway-text-muted))'
+					},
+					border: 'hsl(var(--condoway-border))',
+					'border-light': 'hsl(var(--condoway-border-light))'
 				}
 			},
-			borderRadius: {
-				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+			boxShadow: {
+				'condoway-sm': 'var(--shadow-sm)',
+				'condoway-md': 'var(--shadow-md)',
+				'condoway-lg': 'var(--shadow-lg)',
+				'condoway-xl': 'var(--shadow-xl)'
+			},
+			animation: {
+				'slide-in': 'slideIn 0.3s ease-out',
+				'fade-in': 'fadeIn 0.3s ease-out',
+				'accordion-down': 'accordion-down 0.2s ease-out',
+				'accordion-up': 'accordion-up 0.2s ease-out'
 			},
 			keyframes: {
+				slideIn: {
+					'0%': { transform: 'translateX(-100%)', opacity: '0' },
+					'100%': { transform: 'translateX(0)', opacity: '1' }
+				},
+				fadeIn: {
+					'0%': { opacity: '0' },
+					'100%': { opacity: '1' }
+				},
 				'accordion-down': {
 					from: {
 						height: '0'
@@ -86,10 +128,6 @@ export default {
 					}
 				}
 			},
-			animation: {
-				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

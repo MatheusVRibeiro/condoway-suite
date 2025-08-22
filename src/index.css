@@ -1,96 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* CondoWay Design System - Professional Condominium Management */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* CondoWay Brand Colors */
+    --condoway-primary: 207 78% 43%; /* #1976D2 - Vibrant Blue */
+    --condoway-primary-hover: 207 78% 35%; /* Darker blue for hover */
+    --condoway-primary-light: 207 78% 90%; /* Light blue for backgrounds */
+    
+    /* Interface Colors */
+    --condoway-background: 210 17% 98%; /* #F8F9FA - Light Gray Background */
+    --condoway-card: 0 0% 100%; /* #FFFFFF - White Cards */
+    --condoway-text-primary: 210 11% 24%; /* #343A40 - Dark Gray Text */
+    --condoway-text-secondary: 210 9% 45%; /* #6C757D - Medium Gray Text */
+    --condoway-text-muted: 210 9% 65%; /* Light gray for hints */
+    --condoway-border: 210 14% 83%; /* #CED4DA - Soft Gray Borders */
+    --condoway-border-light: 210 14% 90%; /* Lighter borders */
+    
+    /* Status Colors */
+    --condoway-success: 134 61% 41%; /* #28a745 - Green */
+    --condoway-success-light: 134 61% 95%; /* Light green background */
+    --condoway-error: 354 70% 54%; /* #dc3545 - Red */
+    --condoway-error-light: 354 70% 95%; /* Light red background */
+    --condoway-warning: 45 100% 51%; /* #ffc107 - Yellow */
+    --condoway-warning-light: 45 100% 95%; /* Light yellow background */
+    --condoway-info: 195 100% 45%; /* Info blue */
+    --condoway-info-light: 195 100% 95%; /* Light info background */
+    
+    /* Semantic Design Tokens */
+    --background: var(--condoway-background);
+    --foreground: var(--condoway-text-primary);
+    --card: var(--condoway-card);
+    --card-foreground: var(--condoway-text-primary);
+    --primary: var(--condoway-primary);
+    --primary-foreground: 0 0% 100%;
+    --secondary: var(--condoway-border);
+    --secondary-foreground: var(--condoway-text-primary);
+    --muted: var(--condoway-border-light);
+    --muted-foreground: var(--condoway-text-secondary);
+    --accent: var(--condoway-primary-light);
+    --accent-foreground: var(--condoway-primary);
+    --destructive: var(--condoway-error);
+    --destructive-foreground: 0 0% 100%;
+    --border: var(--condoway-border);
+    --input: var(--condoway-border);
+    --ring: var(--condoway-primary);
+    --radius: 8px;
+    
+    /* Sidebar */
+    --sidebar-background: var(--condoway-card);
+    --sidebar-foreground: var(--condoway-text-primary);
+    --sidebar-primary: var(--condoway-primary);
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: var(--condoway-primary-light);
+    --sidebar-accent-foreground: var(--condoway-primary);
+    --sidebar-border: var(--condoway-border);
+    --sidebar-ring: var(--condoway-primary);
+    
+    /* Shadows and Effects */
+    --shadow-sm: 0 1px 3px 0 hsl(var(--condoway-text-primary) / 0.1);
+    --shadow-md: 0 4px 6px -1px hsl(var(--condoway-text-primary) / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(var(--condoway-text-primary) / 0.1);
+    --shadow-xl: 0 20px 25px -5px hsl(var(--condoway-text-primary) / 0.1);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
@@ -100,6 +79,63 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/50;
+  }
+}
+
+@layer components {
+  /* Focus ring utilities */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  /* Text selection */
+  .text-selection {
+    @apply selection:bg-primary/20 selection:text-primary-foreground;
+  }
+
+  /* Smooth transitions for interactive elements */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-fast {
+    transition: var(--transition-fast);
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Custom text gradients */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent;
   }
 }
