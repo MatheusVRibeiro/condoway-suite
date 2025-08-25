@@ -28,11 +28,6 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   );
 };
 
-// Alias for backwards compatibility
-export const Loading: React.FC<LoadingSpinnerProps> = (props) => (
-  <LoadingSpinner {...props} />
-);
-
 interface LoadingOverlayProps {
   isVisible: boolean;
   message?: string;
