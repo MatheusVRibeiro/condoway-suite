@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Session, User as SupabaseUser } from '@supabase/supabase-js';
 
-export type UserRole = 'sindico' | 'porteiro';
+export type UserRole = 'sindico' | 'porteiro' | 'morador';
 
 export interface User {
   id: string;
@@ -8,10 +10,12 @@ export interface User {
   email: string;
   tipo: UserRole;
   telefone?: string;
+  status?: 'ativo' | 'inativo';
 }
 
 interface AuthContextType {
   user: User | null;
+  session: Session | null;
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
@@ -20,71 +24,91 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock users for demonstration
-const mockUsers: Array<User & { password: string }> = [
-  {
-    id: '1',
-    nome: 'Carlos Silva',
-    email: 'sindico@condoway.com',
-    tipo: 'sindico',
-    telefone: '(11) 99999-9999',
-    password: 'sindico123'
-  },
-  {
-    id: '2',
-    nome: 'João Santos',
-    email: 'porteiro@condoway.com',
-    tipo: 'porteiro',
-    telefone: '(11) 88888-8888',
-    password: 'porteiro123'
-  }
-];
-
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored user on initialization
-    const storedUser = localStorage.getItem('condoway_user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error('Error parsing stored user:', error);
-        localStorage.removeItem('condoway_user');
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setSession(session);
+        if (session?.user) {
+          // Fetch user profile from our usuarios table
+          const { data: userData, error } = await supabase
+            .from('usuarios')
+            .select('*')
+            .eq('email', session.user.email)
+            .single();
+
+          if (userData && !error) {
+            setUser({
+              id: userData.id,
+              nome: userData.nome,
+              email: userData.email,
+              tipo: userData.user_tipo as UserRole,
+              telefone: userData.telefone,
+              status: userData.status
+            });
+          }
+        } else {
+          setUser(null);
+        }
+        setIsLoading(false);
       }
-    }
-    setIsLoading(false);
+    );
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      // This will trigger the onAuthStateChange above
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const foundUser = mockUsers.find(u => u.email === email && u.password === password);
-    
-    if (foundUser) {
-      const { password: _, ...userWithoutPassword } = foundUser;
-      setUser(userWithoutPassword);
-      localStorage.setItem('condoway_user', JSON.stringify(userWithoutPassword));
-      setIsLoading(false);
-      return true;
+    try {
+      // For demo purposes, we'll use our mock authentication
+      // In production, this would use Supabase auth
+      const { data: userData, error } = await supabase
+        .from('usuarios')
+        .select('*')
+        .eq('email', email)
+        .eq('password_hash', password) // In production, use proper password hashing
+        .single();
+
+      if (userData && !error) {
+        setUser({
+          id: userData.id,
+          nome: userData.nome,
+          email: userData.email,
+          tipo: userData.user_tipo as UserRole,
+          telefone: userData.telefone,
+          status: userData.status
+        });
+        setIsLoading(false);
+        return true;
+      }
+    } catch (error) {
+      console.error('Login error:', error);
     }
     
     setIsLoading(false);
     return false;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem('condoway_user');
+    setSession(null);
   };
 
   const value: AuthContextType = {
     user,
+    session,
     login,
     logout,
     isAuthenticated: !!user,

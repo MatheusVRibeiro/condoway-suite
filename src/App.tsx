@@ -9,12 +9,16 @@ import { Login } from "@/pages/Login";
 import { Dashboard } from "@/pages/Dashboard";
 import { Moradores } from "@/pages/Moradores";
 import { Encomendas } from "@/pages/Encomendas";
+import { Visitantes } from "@/pages/Visitantes";
+import { Reservas } from "@/pages/Reservas";
+import { Comunicacoes } from "@/pages/Comunicacoes";
+import { Financeiro } from "@/pages/Financeiro";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const AppRouter = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   if (!isAuthenticated) {
     return <Login />;
@@ -24,12 +28,13 @@ const AppRouter = () => {
     <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="/moradores" element={<Moradores />} />
-      <Route path="/visitantes" element={<div className="p-6"><h1 className="text-2xl font-bold">Controle de Visitantes</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
+      <Route path="/visitantes" element={<Visitantes />} />
       <Route path="/encomendas" element={<Encomendas />} />
-      <Route path="/reservas" element={<div className="p-6"><h1 className="text-2xl font-bold">Reservas de Ambientes</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-      <Route path="/comunicacao" element={<div className="p-6"><h1 className="text-2xl font-bold">Comunicação</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-      <Route path="/estrutura" element={<div className="p-6"><h1 className="text-2xl font-bold">Gestão Estrutural</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
-      <Route path="/financeiro" element={<div className="p-6"><h1 className="text-2xl font-bold">Financeiro</h1><p className="text-muted-foreground">Em desenvolvimento...</p></div>} />
+      <Route path="/reservas" element={<Reservas />} />
+      <Route path="/comunicacoes" element={<Comunicacoes />} />
+      {user?.tipo === 'sindico' && (
+        <Route path="/financeiro" element={<Financeiro />} />
+      )}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
